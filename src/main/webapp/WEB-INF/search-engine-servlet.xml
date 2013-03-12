@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-2.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+       default-autowire="byName">
+
+    <context:component-scan base-package="com.searchengine.bool.web"/>
+
+    <context:property-placeholder location="classpath:application.properties"/>
+    <context:property-placeholder location="classpath:quartz.properties"/>
+
+    <!--<repository:annotation-config />-->
+
+    <!--<repository:load-time-weaver/>-->
+
+    <aop:spring-configured/>
+
+    <!--<aop:aspectj-autoproxy/>-->
+
+    <!--<tx:annotation-driven />-->
+
+    <bean class="com.searchengine.bool.aspect.ControllerInterceptor" factory-method="aspectOf"/>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="classpath:application"/>
+    </bean>
+
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--p:viewClass="org.springframework.web.servlet.view.tiles2.TilesView">-->
+        <property name="prefix" value="/WEB-INF/jsp/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <bean id="updateIndexJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="indexUpdater" />
+        <property name="targetMethod" value="updateIndex" />
+    </bean>
+
+    <bean id="simpleTrigger"
+          class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="jobDetail" ref="updateIndexJob" />
+        <property name="repeatInterval" value="3600000" />
+        <property name="startDelay" value="1000" />
+    </bean>
+
+    <!--<bean name="quartzResource" class="org.springframework.core.io.FileSystemResource">-->
+
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" autowire="no">
+        <!--<property name="dataSource" value="null"/>-->
+        <!--<property name="quartzProperties">-->
+            <!--<map>-->
+                <!--<entry key="org.quartz.jobStore.class" value="org.quartz.simpl.RAMJobStore"/>-->
+            <!--</map>-->
+        <!--</property>-->
+        <property name="jobDetails">
+            <list>
+                <ref bean="updateIndexJob" />
+            </list>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref bean="simpleTrigger" />
+            </list>
+        </property>
+    </bean>
+</beans>

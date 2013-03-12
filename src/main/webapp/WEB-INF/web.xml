@@ -1,0 +1,87 @@
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" >
+
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>classpath:log4j.xml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:repository/spring-jdbc.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!--<servlet>-->
+        <!--<servlet-name>default</servlet-name>-->
+        <!--<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>-->
+        <!--<init-param>-->
+            <!--<param-name>debug</param-name>-->
+            <!--<param-value>0</param-value>-->
+        <!--</init-param>-->
+        <!--<init-param>-->
+            <!--<param-name>listings</param-name>-->
+            <!--<param-value>false</param-value>-->
+        <!--</init-param>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/static/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>search-engine</servlet-name>
+        <servlet-class>com.searchengine.bool.web.servlet.SearchDispatcherServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <filter>
+        <filter-name>httpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>httpMethodFilter</filter-name>
+        <servlet-name>search-engine</servlet-name>
+    </filter-mapping>
+
+    <!--
+       Defines the 'default' servlet (usually for job static resources).
+       Uncomment this in containers (GlassFish) that do not declare this
+       implicit definition out of the box, or change the name of the servlet mapping
+       below to the appropriate one.
+    -->
+
+    <servlet-mapping>
+        <servlet-name>search-engine</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+
+    <!--
+     - Map static resources to the default servlet
+     - examples:
+     -     http://localhost:8080/static/images/pets.png
+     -     http://localhost:8080/static/styles/meteo.css
+    -->
+
+    <welcome-file-list>
+        <welcome-file>
+            index.jsp
+        </welcome-file>
+    </welcome-file-list>
+
+</web-app>
+

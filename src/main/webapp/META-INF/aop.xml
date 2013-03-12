@@ -1,0 +1,15 @@
+<!DOCTYPE aspectj PUBLIC
+        "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<aspectj>
+    <weaver options="-showWeaveInfo
+              -XmessageHandlerClass:org.springframework.aop.aspectj.AspectJWeaverMessageHandler">
+        <include within="com.searchengine.bool.web.controller.*"/>
+        <include within="com.searchengine.bool.web.job.*"/>
+        <include within="com.searchengine.bool.aspect.ControllerInterceptor"/>
+        <include within="com.searchengine.bool.aspect.LoggingInterceptor"/>
+    </weaver>
+    <aspects>
+        <aspect name="com.searchengine.bool.aspect.ControllerInterceptor"/>
+        <aspect name="com.searchengine.bool.aspect.LoggingInterceptor"/>
+    </aspects>
+</aspectj>

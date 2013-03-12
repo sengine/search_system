@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ Copyright (c) 2010, Red Hat Inc. or third-party contributors as
+  ~ indicated by the @author tags or express copyright attribution
+  ~ statements applied by the authors.  All third-party contributions are
+  ~ distributed under license by Red Hat Inc.
+  ~
+  ~ This copyrighted material is made available to anyone wishing to use, modify,
+  ~ copy, or redistribute it subject to the terms and conditions of the GNU
+  ~ Lesser General Public License, as published by the Free Software Foundation.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
+  ~ for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with this distribution; if not, write to:
+  ~ Free Software Foundation, Inc.
+  ~ 51 Franklin Street, Fifth Floor
+  ~ Boston, MA  02110-1301  USA
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.searchengine.bool</groupId>
+    <artifactId>search-engine</artifactId>
+    <packaging>war</packaging>
+    <version>1.0</version>
+
+    <name>Boolean Search Engine</name>
+    <description>Just for first step</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Skip artifact deployment -->
+        <!--<maven.deploy.skip>true</maven.deploy.skip>-->
+		<!--<hibernate>3.6.10.Final</hibernate>-->
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+		<slf4j.version>1.5.6</slf4j.version>
+        <spring.version>3.2.1.RELEASE</spring.version>
+        <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+        <maven-surefire-plugin.version>2.12.3</maven-surefire-plugin.version>
+        <org.aspectj.version>1.7.1</org.aspectj.version>
+        <maven-war-plugin.version>2.3</maven-war-plugin.version>
+        <jstl.version>1.2</jstl.version>
+        <!--<h2>1.3.167</h2>-->
+        <junit.version>4.10</junit.version>
+        <servlet-api.version>2.3</servlet-api.version>
+    </properties>
+
+    <!--<modules>-->
+        <!--<module>basic</module>-->
+        <!--<module>annotations</module>-->
+        <!--<module>entitymanager</module>-->
+        <!--<module>envers</module>-->
+    <!--</modules>-->
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven-war-plugin.version}</version>
+                    <configuration>
+                        <!--<outputDirectory>C:\Program Files\Apache Software Foundation\Tomcat 7.0\webapps</outputDirectory>-->
+                        <!--<webappDirectory>C:\Program Files\apache-tomcat-7.0.26\webapps\search-engine-1.0</webappDirectory>-->
+                    </configuration>
+                </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.3</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <!--<testResources>-->
+            <!--<testResource>-->
+                <!--<filtering>false</filtering>-->
+                <!--<directory>src/test/java</directory>-->
+                <!--<includes>-->
+                    <!--<include>**/*.xml</include>-->
+                <!--</includes>-->
+            <!--</testResource>-->
+            <!--<testResource>-->
+                <!--<directory>src/test/resources</directory>-->
+            <!--</testResource>-->
+        <!--</testResources>-->
+        <finalName>sengine</finalName>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+        </dependency>
+
+
+        <!-- Spring -->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+            <exclusions>
+                <!-- Exclude Commons Logging in favor of SLF4j -->
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+            </exclusion>
+        </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-instrument</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- QuartzJobBean in spring-repository-support.jar -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>3.2.1.RELEASE</version>
+        </dependency>
+
+        <!-- Spring + Quartz need transaction -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>3.2.1.RELEASE</version>
+        </dependency>
+
+        <!-- Quartz framework -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>1.8.6</version>
+        </dependency>
+
+        <!-- AspectJ -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.7.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.7.1</version>
+        </dependency>
+
+        <!-- Tomcat -->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.tomcat</groupId>-->
+            <!--<artifactId>catalina</artifactId>-->
+            <!--<version>6.0.36</version>-->
+        <!--</dependency>-->
+
+        <!-- Logging -->
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>com.springsource.slf4j.api</artifactId>-->
+            <!--<version>${slf4j.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>com.springsource.slf4j.org.apache.commons.logging</artifactId>-->
+            <!--<version>${slf4j.version}</version>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>com.springsource.slf4j.log4j</artifactId>-->
+            <!--<version>${slf4j.version}</version>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-core</artifactId>-->
+            <!--<version>${hibernate}</version>-->
+        <!--</dependency>-->
+
+        <!-- Hibernate uses jboss-logging for logging, for the tutorials we will use the sl4fj-simple backend -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <!-- The tutorials use JUnit test cases to illustrate usage -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901.jdbc4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
+        </dependency>
+
+
+        <!--<dependency>-->
+            <!--<groupId>javax.servlet</groupId>-->
+            <!--<artifactId>servlet-api</artifactId>-->
+            <!--<version>2.3</version>-->
+        <!--</dependency>-->
+
+        <!-- The tutorials use the H2 in-memory database -->
+        <!--<dependency>-->
+            <!--<groupId>com.h2database</groupId>-->
+            <!--<artifactId>h2</artifactId>-->
+            <!--<version>${h2}</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>ehcache</groupId>-->
+            <!--<artifactId>ehcache</artifactId>-->
+            <!--<version>1.2.3</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>commons-collections</groupId>-->
+            <!--<artifactId>commons-collections</artifactId>-->
+            <!--<version>2.1</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.drools</groupId>-->
+            <!--<artifactId>drools-simulator</artifactId>-->
+            <!--<version>5.5.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>junit</groupId>-->
+            <!--<artifactId>junit</artifactId>-->
+            <!--<version>4.10</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-core</artifactId>-->
+            <!--<version>3.6.3.Final</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>javassist</groupId>-->
+            <!--<artifactId>javassist</artifactId>-->
+            <!--<version>3.12.1.GA</version>-->
+        <!--</dependency>-->
+    </dependencies>
+
+    <!--<distributionManagement>-->
+        <!--<repository>-->
+            <!--<id>internal.repo</id>-->
+            <!--<name>MyCo Internal Repository</name>-->
+            <!--<url>file://C:\Users\Entrix\repository</url>-->
+        <!--</repository>-->
+    <!--</distributionManagement>-->
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>mvnrepository</id>-->
+            <!--<url>http://mvnrepository.com</url>-->
+        <!--</repository>-->
+    <!--</repositories>-->
+
+    <repositories>
+        <repository>
+            <id>springsource-repo</id>
+            <name>SpringSource Repository</name>
+            <url>http://repo.springsource.org/release</url>
+        </repository>
+        <repository>
+            <id>JBoss repository</id>
+            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+</project>
