@@ -18,11 +18,6 @@ public class SearchResult {
     private List<String> content;
 
     /**
-     * Search query for this result
-     */
-    private String searchQuery;
-
-    /**
      *Number of the rendered page
      */
     private int pageNumber;
@@ -52,14 +47,6 @@ public class SearchResult {
 
     public void setContent(List<String> content) {
         this.content = content;
-    }
-
-    public String getSearchQuery() {
-        return searchQuery;
-    }
-
-    public void setSearchQuery(String searchQuery) {
-        this.searchQuery = searchQuery;
     }
 
     public int getPageNumber() {

@@ -31,19 +31,58 @@
 		</b>
 	</th>
     </thead> -->
+    <h4>
+			<span>
+			For Query:
+            </span>
+            <span style="font-weight: normal; margin-left: 10px;">
+
+                ${searchResult.query}
+
+            </span>
+			<span style="float: right;">
+				Page: ${searchResult.pageNumber}
+			</span>
+        <br/>
+        <br/>
+        <c:choose>
+            <c:when test="${searchResult.pageNumber == 1 && searchResult.id == 1}">
+	<span class="current">
+        <!-- <text>AARDVARK</text> -->
+        <c:if test="${searchResult.hasNext}">
+            <a href="<spring:url value="http://localhost:8080/sengine/searchResult/${searchResult.pageNumber + 1}" htmlEscape="true" />">Next Page</a>
+        </c:if>
+	</span>
+            </c:when>
+            <c:otherwise>
+	<span class="arr">
+	<span style="float: right;">
+        <c:if test="${searchResult.pageNumber > 1}">
+            <a href="<spring:url value="http://localhost:8080/sengine/searchResult/${searchResult.pageNumber - 1}" htmlEscape="true" />">Previous Page</a>
+        </c:if>
+	</span>
+        <c:if test="${searchResult.hasNext}">
+            <a href="<spring:url value="http://localhost:8080/sengine/searchResult/${searchResult.pageNumber + 1}" htmlEscape="true" />">Next Page</a>
+        </c:if>
+	</span>
+            </c:otherwise>
+        </c:choose>
+    </h4>
     <c:forEach var="item" items="${searchResult.content}">
-        <tr>
-                <%--<td>--%>
-                <%--<spring:url value="owners/{ownerId}" var="ownerUrl">--%>
-                <%--<spring:param name="ownerId" value="${owner.id}"/>--%>
-                <%--</spring:url>--%>
-                <%--<a href="${fn:escapeXml(ownerUrl)}">${owner.firstName} ${owner.lastName}</a>--%>
-                <%--</td>--%>
-                <%--<td>${owner.address}</td>--%>
-                <%--<td>${owner.city}</td>--%>
+        <!-- <tr> -->
+        <%--<td>--%>
+        <%--<spring:url value="owners/{ownerId}" var="ownerUrl">--%>
+        <%--<spring:param name="ownerId" value="${owner.id}"/>--%>
+        <%--</spring:url>--%>
+        <%--<a href="${fn:escapeXml(ownerUrl)}">${owner.firstName} ${owner.lastName}</a>--%>
+        <%--</td>--%>
+        <%--<td>${owner.address}</td>--%>
+        <%--<td>${owner.city}</td>--%>
+
+
         <div class="quote">
             <div class="text">
-                <td>${item}</td>
+                    ${item}
             </div>
         </div>
         <%--<td>--%>
@@ -71,28 +110,30 @@
     <!-- <c:out value="${request}"  default="N/A" /> -->
     <!-- <text>${searchResult.id}</text> -->
 
-
-    <c:choose>
-        <c:when test="${searchResult.pageNumber == 1 && searchResult.id == 1}">
+    <h4>
+        <c:choose>
+            <c:when test="${searchResult.pageNumber == 1 && searchResult.id == 1}">
 	<span class="current">
         <!-- <text>AARDVARK</text> -->
         <c:if test="${searchResult.hasNext}">
             <a href="<spring:url value="http://localhost:8080/sengine/searchResult/${searchResult.pageNumber + 1}" htmlEscape="true" />">Next Page</a>
         </c:if>
 	</span>
-        </c:when>
-        <c:otherwise>
+            </c:when>
+            <c:otherwise>
 	<span class="arr">
+	<span style="float: right;">
         <c:if test="${searchResult.pageNumber > 1}">
             <a href="<spring:url value="http://localhost:8080/sengine/searchResult/${searchResult.pageNumber - 1}" htmlEscape="true" />">Previous Page</a>
         </c:if>
+	</span>
         <c:if test="${searchResult.hasNext}">
             <a href="<spring:url value="http://localhost:8080/sengine/searchResult/${searchResult.pageNumber + 1}" htmlEscape="true" />">Next Page</a>
         </c:if>
 	</span>
-        </c:otherwise>
-    </c:choose>
-
+            </c:otherwise>
+        </c:choose>
+    </h4>
 
     <br/>
     <br/>

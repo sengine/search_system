@@ -36,20 +36,22 @@ public class SearchController {
 
         ModelAndView mav = new ModelAndView("searchResult");
         SearchResult result = new SearchResult();
-        CachedResult.setDocuments(getQueryResult(query));
-        CachedResult.setQuery(query);
+        CachedResult.setQuery(
+                query.trim().toLowerCase()
+               .replaceAll("\\ ", "\\ AND\\ ")
+               .replaceAll("\\-", "\\ NOT\\ "));
+        CachedResult.setDocuments(getQueryResult(query.toLowerCase()));
         List<String> stringList =
                 CachedResult.getContentForPageNumber(1);
 
         result.setId(0L);
         // set result object for viewing
         result.setPageNumber(1);
-        result.setQuery(query);
+        result.setQuery(StringEscapeUtils.escapeHtml(CachedResult.getQuery()));
 //        stringList.add("first string");
 //        stringList.add("second string");
 //        stringList.add("third string");
         result.setContent(stringList);
-        result.setSearchQuery(query);
         if (CachedResult.getDocuments().size() > CachedResult.DOCUMENTS_ON_PAGE) {
             result.setHasNext(true);
         }
@@ -69,8 +71,8 @@ public class SearchController {
         result.setId(0L);
         // set result object for viewing
         result.setPageNumber(pageNumber);
-        result.setQuery(CachedResult.getQuery());
         result.setContent(stringList);
+        result.setQuery(StringEscapeUtils.escapeHtml(CachedResult.getQuery()));
         if (CachedResult.getDocuments().size() > CachedResult.DOCUMENTS_ON_PAGE) {
             result.setHasNext(true);
         }

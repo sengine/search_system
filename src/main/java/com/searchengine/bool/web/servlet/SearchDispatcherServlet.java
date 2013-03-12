@@ -13,7 +13,8 @@ import org.springframework.web.servlet.DispatcherServlet;
 public class SearchDispatcherServlet extends DispatcherServlet {
 
     public void destroy() {
-        DataService.saveIndex();
+        // This action must be always runs, but it's not true
+//        DataService.saveIndex();
         super.destroy();
     }
 }

@@ -73,16 +73,25 @@ public class Searcher implements ISearcher {
         }
 
         // retrieve the first list from all postings
-        List<Long> result;
+        List<Long> result = new ArrayList<Long>();
 
         if (!signs.get(0)) {
-            List<Long> current = Indexator.getIndexator().getAll();
-            current.removeAll(postings.get(0));
-            result = current;
-        } else {
-            result = postings.get(0);
+            int i = 1;
+            for (; i < postings.size(); ++i) {
+                if (signs.get(i) == true) {
+                    break;
+                }
+            }
+            // if all woards has a negative sign then result is empty
+            if (i == postings.size()) {
+                return result;
+            }
+            List<Long> current = postings.get(i);
+            postings.set(i, postings.get(0));
+            postings.set(0, current);
         }
 
+        result = postings.get(0);
         postings.remove(0);
         signs.remove(0);
 

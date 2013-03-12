@@ -70,7 +70,7 @@ public class SearchService {
     }
 
 
-    public static boolean addDocument(IDocument document) {
+    public static boolean addTermsOfDocument(IDocument document) {
         List<ITerm> terms = new ArrayList<ITerm>();
         List<IToken> tokens = tokenizer.getTokensFromDocument(document);
 
@@ -86,7 +86,7 @@ public class SearchService {
 
     public static boolean addDocuments(List<Document> documents) {
         for (Document doc : documents) {
-            addDocument(doc);
+            addTermsOfDocument(doc);
         }
         return true;
     }
@@ -108,7 +108,7 @@ public class SearchService {
 //        Long id = DataService.getTermId(termOne.getValue());
 
         try {
-            String loadDirectory = "../webapps/sengine/WEB-INF/classes/load/";
+            String loadDirectory = "webapps/sengine/WEB-INF/classes/load/";
             String[] commands = {"ls", loadDirectory};
             Runtime rt = Runtime.getRuntime();
             Process proc = rt.exec(commands);
@@ -123,9 +123,9 @@ public class SearchService {
             // read the output from the command
             String s;
             System.out.println("Here is the standard output of the command:\n");
-                while ((s = stdInput.readLine()) != null) {
-                    resultFiles.add(s);
-                    System.out.println(s);
+            while ((s = stdInput.readLine()) != null) {
+                resultFiles.add(s);
+                System.out.println(s);
             }
 
 //            // read any errors from the attempted command
@@ -146,12 +146,13 @@ public class SearchService {
                         content += line + System.getProperty("line.separator");
                         line = reader.readLine();
                     }
-                    addDocument(new Document(content));
+                    addTermsOfDocument(new Document(content));
                     content = "";
                 }
                 reader.close();
                 Runtime.getRuntime().exec(new String[] { "rm", loadDirectory + fileName });
             }
+            logger.info("Data is loaded");
         } catch (FileNotFoundException e) {
             logger.error("Error reading documents from file bash.txt", e.getCause());
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -159,6 +160,10 @@ public class SearchService {
             logger.error("Error reading documents from file bash.txt", e.getCause());
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+
+        // save index
+        logger.info("Save Index");
+        DataService.saveIndex();
 
 //        DataService service =
 //                (DataService) ApplicationServiceImpl.getBean("dataService");

@@ -14,6 +14,6 @@ import com.searchengine.bool.domain.Term;
 public class WordTerminator implements ITerminator {
     @Override
     public ITerm getTermRelatedToToken(IToken token) {
-        return new Term(token.getValue());//, token);
+        return new Term(((String) token.getValue()).toLowerCase());//, token);
     }
 }

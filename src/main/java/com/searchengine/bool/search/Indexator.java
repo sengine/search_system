@@ -85,7 +85,7 @@ public class Indexator implements Serializable {
         }
     }
 
-    @LoggingBefore("Add terms")
+//    @LoggingBefore("Add terms")
     public void addTerms(List<ITerm> terms, Long docId) {
         for (ITerm term : terms) {
             if(dictionary.containsKey(term)) {
@@ -181,6 +181,12 @@ public class Indexator implements Serializable {
         signs.set(from, temp);
     }
 
+    /**
+     * Don't use this method in order to save your health!
+     *
+     * @return list of the All postings
+     */
+    @Deprecated
     List<Long> getAll() {
         Set<Long> docSet = new TreeSet<Long>(identifiersComparator);
         for (Set<Long> docId : dictionary.values()) {
